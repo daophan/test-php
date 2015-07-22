@@ -1,0 +1,61 @@
+.login-container{
+	width: 400px;
+	height: auto;
+	border: 2px solid blue;
+	margin: 10% auto;
+	padding: 15px;
+	text-align: center;
+	padding-bottom: 20px;
+}
+
+.login-container .error-message{
+	color: red;
+}
+
+.login-container .form-input{
+	text-align: right;
+	margin: 0 60px 20px 0;
+}
+
+.login-container input[type='text'], .login-container input[type='password']{
+	padding: 5px 2px;
+	margin-left: 30px;
+}
+.login-container input[type='checkbox']{
+	margin-right: 20px;
+}
+.login-container input[type='submit']{
+	padding: 7px 15px;
+	border: none;
+	background-color: #33CCFF;
+}
+
+.popup{
+	position: fixed;
+	display: none;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.8);
+	padding: 20px 0;
+}
+
+.languages{
+	background-color: white;
+	border: 2px solid #33CCFF;
+	border-radius: 15px;
+	width: 400px;
+	text-align: center;
+	margin: 20% auto;
+	padding: 10px;
+}
+
+.languages .lang-bt{
+	text-transform: uppercase;
+	padding: 15px;
+	color: #00B4FF;
+	border: 2px solid #00B4FF;
+	cursor: pointer;
+	width: 200px;
+}
