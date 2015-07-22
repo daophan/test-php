@@ -6,6 +6,8 @@ use Phalcon\Loader;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Url as UrlProvider;
 use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
+use Phalcon\Session\Adapter\Files as Session;
+
 
 try {
 
@@ -29,7 +31,7 @@ try {
     // Setup a base URI so that all generated URIs include the "tutorial" folder
     $di->set('url', function(){
         $url = new UrlProvider();
-        $url->setBaseUri('/third-day/');
+        $url->setBaseUri('/test-php/');
         return $url;
     });
 
@@ -37,6 +39,14 @@ try {
         $cookies = new Phalcon\Http\Response\Cookies();
         $cookies->useEncryption(false);
         return $cookies;
+    });
+
+
+    //Start the session the first time when some component request the session service
+    $di->setShared('session', function() {
+        $session = new Session();
+        $session->start();
+        return $session;
     });
 
     $di->set('security', function(){
