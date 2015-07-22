@@ -3,6 +3,26 @@
 	margin: 10px auto;
 }
 
+.popup{
+	position: fixed;
+	left: 0;
+	top:0;
+	padding-top: 20px;
+	display: none;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.5);
+	text-align: center;
+}
+.popup .container{
+	margin-top: 150px;
+	padding: 10px;
+	width: 600px;
+	border: 2px solid #B91111;
+	border-radius: 10px;
+	background-color: #FFFFFF;
+}
+
 .list-images{
 	margin: 0 0 10px 0;
 	padding: 0px;
@@ -30,3 +50,4 @@
 }
 
 span{float: right;}
+
