@@ -10,6 +10,21 @@ class IndexController extends ControllerBase
 		{
 			return $this->response->redirect('user');
 		}
+		else if($this->cookies->has('username') && $this->cookies->has('password'))
+		{
+			$username = $this->cookies->get("username");
+			$password = $this->cookies->get("password");
+
+			$user = User::findFirst("UserName = '$username'");
+			if($user && $this->security->checkHash($password, $user->PassWord))
+			{
+				$this->session->set("user-id", $user->ID);
+				$this->session->set("user-role", $user->RoleID);
+				
+				return $this->response->redirect('user');					
+			}
+		}
+
 
 		$this->view->t = $this->getTranslation();
 
@@ -19,6 +34,7 @@ class IndexController extends ControllerBase
             // Access POST data
 			$username = $this->request->getPost("username");
 			$password = $this->request->getPost("password");
+			$remember = $this->request->getPost("remember");
 
 			$user = User::findFirst("UserName = '$username'");
 
@@ -27,10 +43,15 @@ class IndexController extends ControllerBase
 				$this->session->set("user-id", $user->ID);
 				$this->session->set("user-role", $user->RoleID);
 
+				if($remember)
+				{
+					$this->cookies->set("cookname", $username, time()+2592000, "/");
+					$this->cookies->set("cookpass", $password, time()+2592000, "/");
+				}
+
 				return $this->response->redirect('user');
 			}
 			else $this->view->error = true;
 		}
-
 	}
 }
