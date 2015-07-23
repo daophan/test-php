@@ -7,18 +7,18 @@
 </head>
 <body>
 	<div class="login-container">
-		<form action="" method="post">
+		<form action="/test-php/" method="post" autocomplete="on">
 			<?php if (isset($error) && $error): ?>
 				<p class="error-message"><?php echo $t->_('login-incorrect') ?></p>
 			<?php endif ?>
 
 			<div class="form-input">
 				<?php echo $t->_('username') ?>:
-				<input type="text" name="username" value="" placeholder="">
+				<input type="text" name="username" id="username" value="">
 			</div>
 			<div class="form-input">
 				<?php echo $t->_('password') ?>:
-				<input type="password" name="password" value="" placeholder="">
+				<input type="password" name="password" id="password" value="">
 			</div>
 			<p class="login-remember"><input type="checkbox" name="remember" id="remember" value=""> <label for="remember"><?php echo $t->_('remember-me') ?></label></p>
 			<input type="submit" value="<?php echo $t->_('login') ?>">
