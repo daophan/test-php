@@ -4,11 +4,13 @@ class IndexController extends ControllerBase
 {
 	public function indexAction()
 	{
-		if($this->session->has('user-id') && User::count("ID = '".$this->session->get('user-id')."'"))
+        $uid = $this->session->get('user-id');
+
+        if($uid && User::find($uid)->count() > 0)
 		{
 			return $this->response->redirect('user');
 		}
-		
+
 		$this->view->t = $this->getTranslation();
 
 		// Check if request has made with POST

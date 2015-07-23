@@ -1,105 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<title><?php echo $t->_('user-page') ?></title>
-	<link rel="stylesheet" type="text/css" href="/test-php/css/style.css">
+    <meta charset="utf-8" />
+    <title><?php echo $t->_('user-page') ?></title>
+    <link rel="stylesheet" type="text/css" href="/test-php/css/style.css">
 </head>
 <body>
-	<div class="container">
-		<header>
-			<h2><?php echo $t->_('list-images-page') ?></h2>
-		</header>
-		<div class="list-images">
-			<div class="image-item">
-				<div class="image-bg">
-					<img src="http://ngecoding.com/images/bank/phalcon-php-egy-uj-perspektiva.png" alt="">
-				</div>
-				<p>Hình 1 <span>Edit | Delete</span></p>
-				<p><i>(Flower.jpg - 123kb)</i></p>
-			</div>
-			<div class="image-item">
-				<div class="image-bg">
-					<img src="http://ngecoding.com/images/bank/phalcon-php-egy-uj-perspektiva.png" alt="">
-				</div>
-				<p>Hình 1 <span>Edit | Delete</span></p>
-				<p><i>(Flower.jpg - 123kb)</i></p>
-			</div>
-			<div class="image-item">
-				<div class="image-bg">
-					<img src="http://ngecoding.com/images/bank/phalcon-php-egy-uj-perspektiva.png" alt="">
-				</div>
-				<p>Hình 1 <span>Edit | Delete</span></p>
-				<p><i>(Flower.jpg - 123kb)</i></p>
-			</div>
-			<div class="image-item">
-				<div class="image-bg">
-					<img src="http://ngecoding.com/images/bank/phalcon-php-egy-uj-perspektiva.png" alt="">
-				</div>
-				<p>Hình 1 <span>Edit | Delete</span></p>
-				<p><i>(Flower.jpg - 123kb)</i></p>
-			</div>
-			<div class="image-item">
-				<div class="image-bg">
-					<img src="http://ngecoding.com/images/bank/phalcon-php-egy-uj-perspektiva.png" alt="">
-				</div>
-				<p>Hình 1 <span>Edit | Delete</span></p>
-				<p><i>(Flower.jpg - 123kb)</i></p>
-			</div>
-			<div class="image-item">
-				<div class="image-bg">
-					<img src="http://ngecoding.com/images/bank/phalcon-php-egy-uj-perspektiva.png" alt="">
-				</div>
-				<p>Hình 1 <span>Edit | Delete</span></p>
-				<p><i>(Flower.jpg - 123kb)</i></p>
-			</div>
-			<div class="image-item">
-				<div class="image-bg">
-					<img src="http://ngecoding.com/images/bank/phalcon-php-egy-uj-perspektiva.png" alt="">
-				</div>
-				<p>Hình 1 <span>Edit | Delete</span></p>
-				<p><i>(Flower.jpg - 123kb)</i></p>
-			</div>
-			<div class="image-item">
-				<div class="image-bg">
-					<img src="http://ngecoding.com/images/bank/phalcon-php-egy-uj-perspektiva.png" alt="">
-				</div>
-				<p>Hình 1 <span>Edit | Delete</span></p>
-				<p><i>(Flower.jpg - 123kb)</i></p>
-			</div>
-			<div class="image-item">
-				<div class="image-bg">
-					<img src="http://ngecoding.com/images/bank/phalcon-php-egy-uj-perspektiva.png" alt="">
-				</div>
-				<p>Hình 1 <span>Edit | Delete</span></p>
-				<p><i>(Flower.jpg - 123kb)</i></p>
-			</div>
-			<div class="image-item">
-				<div class="image-bg">
-					<img src="http://ngecoding.com/images/bank/phalcon-php-egy-uj-perspektiva.png" alt="">
-				</div>
-				<p>Hình 1 <span>Edit | Delete</span></p>
-				<p><i>(Flower.jpg - 123kb)</i></p>
-			</div>
-		</div>
-		<div class="upload-image">
-			<button type="button" id="bt_add_image"><?php echo $t->_('upload-image') ?></button>
-		</div>
-	</div>
-	<div class="popup popup_upload">
-		<div class="container">
-			<h4><?php echo $t->_('upload-image') ?></h4>
-		</div>
-	</div>
+    <div class="container">
+        <header>
+            <h2><?php echo $t->_('list-images-page') ?></h2>
+        </header>
+        <div class="list-images">
+            <?php foreach ($images as $key => $image): ?>
+            <div class="image-item" pid="<?php echo $image->ID ?>">
+                <div class="image-bg">
+                    <img src="<?php echo $image->ThumbPath ?>" alt="" origin="<?php echo $image->OriginPath ?>">
+                </div>
+                <p class="file_name"><?php echo $image->FileName ?></p>
 
-	<div class="popup popup_edit">
+                <p class="right">
+                <span class="bt_edit_image"><?php echo $t->_('edit') ?></span> -
+                <span class="bt_remove_image"><?php echo $t->_('delete') ?></span>
+                </p>
 
-	</div>
+                <p class="left"><i>(<?php echo $image->OriginName. ' - ' . number_format($image->FileSize/1024) ?> kb)</i></p>
+            </div>
+            <?php endforeach ?>
+        </div>
+        <div class="upload-image">
+            <button type="button" class="btn" id="bt_add_image"><?php echo $t->_('upload-image') ?></button>
+        </div>
+    </div>
+    <div class="popup popup_upload">
+        <div class="container">
+            <div class="bt_close">X</div>
+            <h4><?php echo $t->_('upload-image') ?></h4>
+            <form action="<?php echo $this->url->getBaseUri(); ?>image/upload" method="post" id="upload_images_form">
+            <div class="upload_panel">
+                <div class="upload_row">
+                    <div class="left"><span class="left num">1</span>. <?php echo $t->_('image-name') ?>: </div>
+                    <div class="right">
+                        <input type="text" class="image_upload_name" name="filename[]" value="">
+                        <input type="file" name="file[]" class="hidden">
+                        <input type="button" class="bt_add_image" value="+">
+                        <input type="button" class="bt_remove_row" value="X">
+                    </div>
+                    <div class="preview_image"></div>
+                </div>
+            </div>
+            <div class="upload_bottom">
+                <input type="button" id="bt_add_more" class="btn left" value="<?php echo $t->_('add-more') ?>">
+                <input type="submit" class="btn right" value="<?php echo $t->_('save') ?>">
+            </div>
+            </form>
+            <div class="clear_fix"></div>
+        </div>
+    </div>
 
-	<div class="popup popup_view">
+    <div class="popup popup_edit">
+        <div class="container">
+            <div class="bt_close">X</div>
+            <h4><?php echo $t->_('edit-image') ?></h4>
+            <form action="<?php echo $this->url->getBaseUri(); ?>image/edit" method="post" id="edit_image_form">
+                <div class="edit_panel">
+                    <div class="edit_row">
+                        <div class="left"><?php echo $t->_('image-name') ?>: </div>
+                        <div class="right">
+                            <input type="text" class="hidden" id="image_edit_id"  name="pid">
+                            <input type="text" class="image_edit_name" name="filename" value="">
+                            <input type="file" name="file" class="hidden">
+                            <input type="button" class="bt_add_image" value="+">
+                            <input type="button" class="bt_remove_row" value="X">
+                        </div>
+                        <div class="preview_image">
+                            <img width="225" height="100" src="">
+                        </div>
+                    </div>
+                </div>
+                <div class="edit_bottom">
+                    <input type="submit" class="btn right" value="<?php echo $t->_('save') ?>">
+                </div>
+            </form>
+            <div class="clear_fix"></div>
+        </div>
+    </div>
 
-	</div>
-	<script src="/test-php/js/jquery-1.11.3.min.js" type="text/javascript"></script>
-	<script src="/test-php/js/app.js" type="text/javascript"></script>
+    <div class="popup popup_view">
+
+    </div>
+    <script src="/test-php/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="/test-php/js/app.js" type="text/javascript"></script>
 </body>
 </html>

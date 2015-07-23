@@ -1,3 +1,13 @@
+/** Global **/
+input{
+	padding: 8px 16px;
+}
+.left{float: left;}
+.right{float: right;}
+.hidden{display: none;}
+.clear_fix{clear: both;}
+.btn{padding: 10px 20px}
+/** **/
 .container{
 	width: 980px;
 	margin: 10px auto;
@@ -13,6 +23,7 @@
 	height: 100%;
 	background-color: rgba(255, 255, 255, 0.5);
 	text-align: center;
+	overflow: auto;
 }
 .popup .container{
 	margin-top: 150px;
@@ -21,6 +32,21 @@
 	border: 2px solid #B91111;
 	border-radius: 10px;
 	background-color: #FFFFFF;
+	margin-bottom: 100px;
+}
+.popup .bt_close{
+	  line-height: 32px;
+	  cursor: pointer;
+	  position: relative;
+	  display: block;
+	  top: -30px;
+	  right: -30px;
+	  float: right;
+	  border-radius: 50%;
+	  width: 32px;
+	  height: 32px;
+	  border: 1px solid red;
+	  background-color: white;
 }
 
 .list-images{
@@ -28,6 +54,7 @@
 	padding: 0px;
 }
 .image-item{
+	vertical-align: bottom;
 	text-align: center;
 	width: 300px;
 	margin: 10px;
@@ -49,5 +76,42 @@
 	background-color: #F5F1F1
 }
 
-span{float: right;}
+.image-item .bt_remove_image{
+	color: red;
+	cursor: pointer;
+	margin-left: 5px;
+}
 
+.image-item .bt_edit_image{
+	color: green;
+	cursor: pointer;
+	margin-left: 5px;
+}
+
+.image-item .file_name{
+	min-height: 18px;
+}
+
+/** Upload panel**/
+.upload_panel, .edit_panel{
+	margin: 20px;
+}
+.upload_panel .upload_row, .edit_panel .edit_row{
+	height: auto;
+	text-align: left;
+	min-height: 40px;
+}
+
+.upload_panel .image_upload_name{
+	width: 260px;
+}
+
+.upload_panel .preview_image, .edit_panel .preview_image{
+	text-align: center;
+	padding-top: 40px;
+}
+
+.edit_panel .image_edit_name
+{
+	width: 260px;
+}

@@ -9,5 +9,12 @@ $messages = array(
     'password' => 'Password',
     'remember-me' => 'Remember me',
     'list-images-page' => 'List images page',
-    'upload-image' => 'Upload Image'
+    'upload-image' => 'Upload Image',
+    'image-name' => 'Image name',
+    'add-more' => 'Add more...',
+    'save' => 'Save',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'edit-image' => 'Edit image',
+    'out-of-space' => 'Out of space to upload'
 );
