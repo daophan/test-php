@@ -111,19 +111,49 @@ class ImageController extends ControllerBase
             $this->view->disable();
             $this->response->setContentType('application/json', 'UTF-8');
 
+            $data = array();
+
             if($this->request->hasPost('pid'))
             {
-                $image = Image::find($this->request->getPost('pid'));
-                $image->FileName = $this->request->getPost('filename');
+                try {
+                    $image = Image::find($this->request->getPost('pid'))->getFirst();
 
-                if($this->request->hasFiles())
-                {
-                    $file = $this->request->getUploadedFile();
-                    print_r($file);
-                    echo "string f";
+                    $data['FileName'] = $this->request->getPost('filename');
+
+                    if($this->request->hasFiles())
+                    {
+                        $time = array_sum( explode( ' ' , microtime() ) );
+
+                        $file = $this->request->getUploadedFiles('file');
+                        $data['OriginName'] = $file[0]->getName();
+                        $data['FileSize'] = $file[0]->getSize();
+
+                        $data['OriginPath'] = 'files/'.$time.'_'.$data['OriginName'];
+                        $data['ThumbPath'] = 'files/thumb/300_150_'.$time.'_'.$data['OriginName'];
+
+                        $file[0]->moveTo($data['OriginPath']);
+
+                        $thumb = new \Phalcon\Image\Adapter\GD($data['OriginPath']);
+                        $thumb->resize(300, 150);
+                        $thumb->save($data['ThumbPath']);
+
+                        unlink($image->OriginPath);
+                        unlink($image->ThumbPath);
+                    }
+
+                    $image->update($data);
+                    $this->response->setContent(json_encode(array(
+                        'status' => true
+                    )));
+                } catch (Exception $e) {
+                    $this->response->setContent(json_encode(array(
+                        'status' => false,
+                        'message' => $this->getTranslation()->_('edit-error')
+                    )));
                 }
-                else echo $this->request->hasFiles();
             }
         }
+
+        $this->response->send();
     }
 }

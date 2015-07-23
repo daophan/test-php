@@ -70,6 +70,28 @@ $(document).ready(function() {
             });
         });
 
+        $('#edit_image_form').submit(function(event) {
+            event.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: $(this).attr("action"),
+                type: 'POST',
+                data: formData,
+                async: true,
+                success: function (data) {
+                    if(data.status)
+                        location.reload();
+                    else
+                        alert(data.message);
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+
         $(".upload_row input:file").change(function (){
             var row = $(this).parent().parent();
             var fileName = $(this).val();

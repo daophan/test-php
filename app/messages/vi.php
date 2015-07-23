@@ -9,5 +9,13 @@ $messages = array(
     'password' => 'Mật khẩu',
     'remember-me' => 'Nhớ mật khẩu',
     'list-images-page' => 'Danh sách hình ảnh',
-    'upload-image' => 'Tải ảnh lên'
+    'upload-image' => 'Tải ảnh lên',
+    'image-name' => 'Tên hình ảnh',
+    'add-more' => 'Thêm ...',
+    'save' => 'Lưu',
+    'edit' => 'Sửa',
+    'delete' => 'Xóa',
+    'edit-image' => 'Sửa hình ảnh',
+    'out-of-space' => 'Không đủ xung lượng',
+    'edit-error' => 'Lỗi khi sửa hình ảnh'
 );
