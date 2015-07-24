@@ -49,7 +49,7 @@ class ImageController extends ControllerBase
                         else $ext = 'jpg';
 
                         if(!in_array($file->getRealType(), array('image/gif', 'image/jpeg' , 'image/png', 'image/bmp')))
-                           break;
+                           continue;
 
                         $image = new Image();
                         $image->UserID = $uid;
