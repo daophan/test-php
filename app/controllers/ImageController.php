@@ -8,6 +8,8 @@ class ImageController extends ControllerBase
 
         if($uid && $this->request->isPost() && $this->request->hasFiles())
         {
+            $e = new Phalcon\Escaper();
+
             $files = array();
             $names = $this->request->getPost('filename');
 
@@ -41,17 +43,28 @@ class ImageController extends ControllerBase
                 {
                     foreach ($this->request->getUploadedFiles() as $index => $file) {
 
+                        $fileNameArray = explode('.', $file->getName());
+                        if(sizeof($fileNameArray) > 1)
+                            $ext = end($fileNameArray);
+                        else $ext = 'jpg';
+
+                        if(!in_array($file->getRealType(), array('image/gif', 'image/jpeg' , 'image/png', 'image/bmp')))
+                           break;
+
                         $image = new Image();
                         $image->UserID = $uid;
 
-                        $image->FileName = $names[$index];
+                        $image->FileName =  $e->escapeHtml($names[$index]);
+                        if (strlen($image->FileName) > 20) {
+                            $image->FileName = substr($image->FileName, 0, 20);
+                        }
                         $image->OriginName = $file->getName();
                         $image->FileSize = $file->getSize();
 
                         $time = array_sum( explode( ' ' , microtime() ) );
 
-                        $image->OriginPath = 'files/'.$time.'_'.$image->OriginName;
-                        $image->ThumbPath = 'files/thumb/300_150_'.$time.'_'.$image->OriginName;
+                        $image->OriginPath = 'files/'.$time.'.'.$ext;
+                        $image->ThumbPath = 'files/thumb/300_150_'.$time.'.'.$ext;
 
                         $file->moveTo($image->OriginPath);
 
@@ -88,12 +101,20 @@ class ImageController extends ControllerBase
             if($imageID)
             {
                 $image = Image::find($imageID)->getFirst();
-                unlink($image->OriginPath);
-                unlink($image->ThumbPath);
-                $image->delete();
-                $this->response->setContent(json_encode(array(
-                    'status' => true
-                )));
+                if($image->UserID != $uid)
+                {
+                     $this->response->setContent(json_encode(array(
+                        'status' => false,
+                        'message' => $this->getTranslation()->_('no-permission')
+                    )));
+                } else {
+                    unlink($image->OriginPath);
+                    unlink($image->ThumbPath);
+                    $image->delete();
+                    $this->response->setContent(json_encode(array(
+                        'status' => true
+                    )));
+                }
             }
             else $this->response->setContent(json_encode(array(
                 'status' => false,
@@ -108,6 +129,8 @@ class ImageController extends ControllerBase
         $uid = $this->session->get('user-id');
         if($uid && $this->request->isPost())
         {
+            $e = new Phalcon\Escaper();
+
             $this->view->disable();
             $this->response->setContentType('application/json', 'UTF-8');
 
@@ -118,33 +141,46 @@ class ImageController extends ControllerBase
                 try {
                     $image = Image::find($this->request->getPost('pid'))->getFirst();
 
-                    $data['FileName'] = $this->request->getPost('filename');
-
-                    if($this->request->hasFiles())
+                    if($image->UserID != $uid)
                     {
-                        $time = array_sum( explode( ' ' , microtime() ) );
-
-                        $file = $this->request->getUploadedFiles('file');
-                        $data['OriginName'] = $file[0]->getName();
-                        $data['FileSize'] = $file[0]->getSize();
-
-                        $data['OriginPath'] = 'files/'.$time.'_'.$data['OriginName'];
-                        $data['ThumbPath'] = 'files/thumb/300_150_'.$time.'_'.$data['OriginName'];
-
-                        $file[0]->moveTo($data['OriginPath']);
-
-                        $thumb = new \Phalcon\Image\Adapter\GD($data['OriginPath']);
-                        $thumb->resize(300, 150);
-                        $thumb->save($data['ThumbPath']);
-
-                        unlink($image->OriginPath);
-                        unlink($image->ThumbPath);
+                         $this->response->setContent(json_encode(array(
+                            'status' => false,
+                            'message' => $this->getTranslation()->_('no-permission')
+                        )));
                     }
+                    else
+                    {
+                        $data['FileName'] = $e->escapeHtml($this->request->getPost('filename'));
+                        if (strlen($data['FileName']) > 20) {
+                            $data['FileName'] = substr($image->FileName, 0, 20);
+                        }
 
-                    $image->update($data);
-                    $this->response->setContent(json_encode(array(
-                        'status' => true
-                    )));
+                        if($this->request->hasFiles())
+                        {
+                            $time = array_sum( explode( ' ' , microtime() ) );
+
+                            $file = $this->request->getUploadedFiles('file');
+                            $data['OriginName'] = $file[0]->getName();
+                            $data['FileSize'] = $file[0]->getSize();
+
+                            $data['OriginPath'] = 'files/'.$time.'_'.hash($data['OriginName']);
+                            $data['ThumbPath'] = 'files/thumb/300_150_'.$time.'_'.hash($data['OriginName']);
+
+                            $file[0]->moveTo($data['OriginPath']);
+
+                            $thumb = new \Phalcon\Image\Adapter\GD($data['OriginPath']);
+                            $thumb->resize(300, 150);
+                            $thumb->save($data['ThumbPath']);
+
+                            unlink($image->OriginPath);
+                            unlink($image->ThumbPath);
+                        }
+
+                        $image->update($data);
+                        $this->response->setContent(json_encode(array(
+                            'status' => true
+                        )));
+                    }
                 } catch (Exception $e) {
                     $this->response->setContent(json_encode(array(
                         'status' => false,

@@ -17,5 +17,6 @@ $messages = array(
     'delete' => 'Xóa',
     'edit-image' => 'Sửa hình ảnh',
     'out-of-space' => 'Không đủ xung lượng',
-    'edit-error' => 'Lỗi khi sửa hình ảnh'
+    'edit-error' => 'Lỗi khi sửa hình ảnh',
+    'no-permission' => 'Bạn không có quyền thực hiện thao tác này'
 );

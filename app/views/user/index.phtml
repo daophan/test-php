@@ -41,7 +41,7 @@
                 <div class="upload_row">
                     <div class="left"><span class="left num">1</span>. <?php echo $t->_('image-name') ?>: </div>
                     <div class="right">
-                        <input type="text" class="image_upload_name" name="filename[]" value="">
+                        <input type="text" class="image_upload_name" name="filename[]" value="" maxlength="20">
                         <input type="file" name="file[]" class="hidden">
                         <input type="button" class="bt_add_image" value="+">
                         <input type="button" class="bt_remove_row" value="X">
@@ -68,7 +68,7 @@
                         <div class="left"><?php echo $t->_('image-name') ?>: </div>
                         <div class="right">
                             <input type="text" class="hidden" id="image_edit_id"  name="pid">
-                            <input type="text" class="image_edit_name" name="filename" value="">
+                            <input type="text" class="image_edit_name" name="filename" value="" maxlength="20">
                             <input type="file" name="file" class="hidden">
                             <input type="button" class="bt_add_image" value="+">
                             <input type="button" class="bt_remove_row" value="X">

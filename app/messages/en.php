@@ -17,5 +17,6 @@ $messages = array(
     'delete' => 'Delete',
     'edit-image' => 'Edit image',
     'out-of-space' => 'Out of space to upload',
-    'edit-error' => 'Error while edit image'
+    'edit-error' => 'Error while edit image',
+    'no-permission' => 'No permission'
 );

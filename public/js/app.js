@@ -44,6 +44,8 @@ $(document).ready(function() {
             .done(function(data) {
                 if(data.status == true)
                     box.remove();
+                else if(data.message != undefined)
+                    alert(data.message);
             });
 
         });
@@ -51,8 +53,12 @@ $(document).ready(function() {
         $('#upload_images_form').submit(function(event) {
             event.preventDefault();
 
+            $(this).find('.upload_row').each(function(index, el) {
+                if($(el).find('input:file').val() == '')
+                $(el).remove();
+            });
+            popup.upload.update_row_index();
             var formData = new FormData(this);
-
             $.ajax({
                 url: $(this).attr("action"),
                 type: 'POST',
@@ -62,7 +68,10 @@ $(document).ready(function() {
                     if(data.status)
                         location.reload();
                     else
-                        alert(data.message);
+                        if (data.message != undefined)
+                            alert(data.message);
+                        else
+                            $('.popup').hide();
                 },
                 cache: false,
                 contentType: false,
@@ -143,6 +152,10 @@ $(document).ready(function() {
                     reader.readAsDataURL(input.files[0]);
                 }
                 div.html(image);
+            },
+            get_data : function(form)
+            {
+
             }
         },
         edit : {
