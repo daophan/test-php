@@ -55,8 +55,8 @@ class ImageController extends ControllerBase
                         $image->UserID = $uid;
 
                         $image->FileName =  $e->escapeHtml($names[$index]);
-                        if (strlen($image->FileName) > 20) {
-                            $image->FileName = substr($image->FileName, 0, 20);
+                        if (mb_strlen($image->FileName) > 20) {
+                            $image->FileName = mb_substr($image->FileName, 0, 20);
                         }
                         $image->OriginName = $file->getName();
                         $image->FileSize = $file->getSize();
@@ -151,8 +151,8 @@ class ImageController extends ControllerBase
                     else
                     {
                         $data['FileName'] = $e->escapeHtml($this->request->getPost('filename'));
-                        if (strlen($data['FileName']) > 20) {
-                            $data['FileName'] = substr($image->FileName, 0, 20);
+                        if (mb_strlen($data['FileName']) > 20) {
+                            $data['FileName'] = mb_substr($image->FileName, 0, 20);
                         }
 
                         if($this->request->hasFiles())
