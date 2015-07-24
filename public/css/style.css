@@ -67,6 +67,7 @@ input{
 }
 
 .image-item .image-bg{
+    display: block;
 	box-sizing: border-box;
 	width: 310px;
 	height: 160px;
