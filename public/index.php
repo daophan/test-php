@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(-1);
+mb_internal_encoding('utf-8');
 
 use Phalcon\Loader;
 use Phalcon\Mvc\View;
